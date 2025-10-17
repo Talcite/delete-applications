@@ -60,7 +60,7 @@ const applicationTextsByLang = {
   },
   chineseTraditional: {
     subject: "您收到了一封成員資格申請書",
-    preview: /申請加入您管理的網站 (.*) 的成員/,
+    preview: /申請加入您管理的網站 (.*)/,
   },
   czech: {
     subject: "Dostal jsi žádanku o členství",
