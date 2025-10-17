@@ -45,6 +45,73 @@ v1.0.0 (2022-03-01)
 
 /* global WIKIDOT, OZONE */
 
+const applicationTextsByLang = {
+  english: {
+    subject: "You received a membership application",
+    preview: /applied for membership on (.*), one of your sites/,
+  },
+  catalan: {
+    subject: "Heu rebut una sol·licitud de pertinença",
+    preview: /ha sol·licitat la subscripció a (.*), un dels vostres llocs/,
+  },
+  chineseSimplified: {
+    subject: "您收到了一份成员资格申请",
+    preview: /申请成为您管理的网站 (.*) 的成员/,
+  },
+  chineseTraditional: {
+    subject: "您收到了一封成員資格申請書",
+    preview: /todo/,
+  },
+  czech: {
+    subject: "Dostal jsi žádanku o členství",
+    preview: /todo/,
+  },
+  esperanto: {
+    subject: "Vi ricevis membriĝpeton",
+    preview: /todo/,
+  },
+  french: {
+    subject: "Vous avez reçu une demande d'adhésion",
+    preview: /todo/,
+  },
+  german: {
+    subject: "Sie haben ein Antrag zur Mitgliedschaft erhalten",
+    preview: /todo/,
+  },
+  italian: {
+    subject: "Hai ricevuto una domanda di adesione",
+    preview: /todo/,
+  },
+  japanese: {
+    subject: "参加希望書を受け取りました。",
+    preview: /todo/,
+  },
+  korean: {
+    subject: "회원가입 신청서를 받았습니다.",
+    preview: /todo/,
+  },
+  spanish: {
+    subject: "Has recibido una petición de membresía",
+    preview: /todo/,
+  },
+  polish: {
+    subject: "Otrzymałeś aplikację o członkostwo",
+    preview: /todo/,
+  },
+  russian: {
+    subject: "Вам подана заявка на участие",
+    preview: /todo/,
+  },
+  serbian: {
+    subject: "Добили сте пријаву за чланство",
+    preview: /todo/,
+  },
+  vietnamese: {
+    subject: "Bạn đã nhận được đơn tham gia",
+    preview: /todo/,
+  },
+}
+
 /* ===== Utilities ===== */
 
 const deleterDebug = log => console.debug("Applications deleter:", log)
@@ -110,10 +177,13 @@ class Message {
     this.subject = messageElement.querySelector(".subject").innerText
     this.previewText = messageElement.querySelector(".preview").innerText
 
-    // Is this message an application?
     this.isApplication =
-      this.fromWikidot &&
-      this.subject === "You received a membership application"
+      this.fromWikidot && applicationSubjectsByLang.includes(this.subject)
+
+    // Is this message an application?
+    if (this.fromWikidot && subjectTexts.includes(this.subject)) {
+      this.isApplication = true
+    }
 
     if (this.isApplication) {
       // Which wiki is the application for?
